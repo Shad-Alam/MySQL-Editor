@@ -9,10 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -29,7 +26,9 @@ public class ShowDatabasesController implements Initializable {
     public TableColumn<ShowDatabases, Button> tb_column_dropDatabase;
 
     public ObservableList<ShowDatabases> list = FXCollections.observableArrayList();
+    public TextField tf_dbname;
 
+    public static String databasename = "---";
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tb_column_databases.setCellValueFactory(new PropertyValueFactory<ShowDatabases,String>("Dbname"));
@@ -73,17 +72,52 @@ public class ShowDatabasesController implements Initializable {
                         @Override
                         public void handle(ActionEvent actionEvent) {
                             // pass database name
-                            btn_showtables.setStyle("-fx-background-color: orange; -fx-text-fill: white;");
+//                            btn_showtables.setStyle("-fx-background-color: orange; -fx-text-fill: white;");
+
+                            databasename = dbname;
+                            try {
+                                Parent parent = FXMLLoader.load(getClass().getResource("showTables.fxml"));
+                                Scene scene = new Scene(parent);
+                                Stage stage =
+                                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                                stage.setScene(scene);
+
+                                ShowTablesController showTablesController = new ShowTablesController();
+                                stage.show();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     });
+                    // add handler for btn_delete
                     btn_delete.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
-                            // pass database name
-                            btn_delete.setStyle("-fx-background-color: green; -fx-text-fill: white;");
+                            // delete database
+                            try {
+//                                Class.forName("com.mysql.jdbc.Driver");
+                                Connection connection1 = null;
+                                Statement statement1 = null;
+                                connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
+                                statement1 = connection1.createStatement();
+                                String sql1 = "DROP DATABASE " + dbname + ";";
+                                statement1.execute(sql1);
+                                connection1.close();
+                                Parent parent =
+                                        FXMLLoader.load(getClass().getResource("showDatabases.fxml"));
+                                Scene scene = new Scene(parent);
+                                Stage stage =
+                                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                                stage.setScene(scene);
+                                stage.show();
+                            }catch (IOException e) {
+                                throw new RuntimeException(e);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     });
-                    }
+                }
                 // disable some database name
                 showDatabases = new ShowDatabases(dbname, btn_showtables, btn_delete);
                 list.add(showDatabases);
@@ -100,7 +134,33 @@ public class ShowDatabasesController implements Initializable {
         }
     }
 
-    public void btn_create_new_schema(ActionEvent actionEvent) {
+    public void btn_create_new_schema(ActionEvent actionEvent) throws IOException {
+        String dbname = tf_dbname.getText();
+        if(dbname.length()>0){
+            Connection connection = null;
+            Statement statement = null;
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
+                statement = connection.createStatement();
+                String sql = "CREATE DATABASE " + dbname;
+
+                statement.execute(sql);
+
+                connection.close();
+                Parent parent =
+                    FXMLLoader.load(getClass().getResource("showDatabases.fxml"));
+                Scene scene = new Scene(parent);
+                Stage stage =
+                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public void btn_logout(ActionEvent actionEvent) throws IOException {
