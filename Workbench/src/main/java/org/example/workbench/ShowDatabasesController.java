@@ -35,7 +35,9 @@ public class ShowDatabasesController implements Initializable {
         tb_column_databases.setCellValueFactory(new PropertyValueFactory<ShowDatabases,String>("Dbname"));
         tb_column_showTables.setCellValueFactory(new PropertyValueFactory<ShowDatabases,Button>("Showtable"));
         tb_column_dropDatabase.setCellValueFactory(new PropertyValueFactory<ShowDatabases,Button>("Dropdatabase"));
-
+        tb_column_databases.setStyle("-fx-alignment: CENTER;");
+        tb_column_showTables.setStyle("-fx-alignment: CENTER;");
+        tb_column_dropDatabase.setStyle("-fx-alignment: CENTER;");
         Connection connection = null;
         Statement statement = null;
         try {
