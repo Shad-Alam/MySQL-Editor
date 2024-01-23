@@ -33,23 +33,10 @@ public class UserLogInController implements Initializable {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
-            statement = connection.createStatement();
-            String sql = "SHOW DATABASES";
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            int result = 0;
-            while(resultSet.next()){
-                String dbname = resultSet.getString("Database");
-                result++;
-                System.out.println(dbname);
-            }
-
-            if (result>0){
-                connection.close();
-                return true;
-            }else{
-                return false;
-            }
+            // check user from database userlist
+            // then return true or false
+            connection.close();
+            return true;
         } catch (ClassNotFoundException e) {
             return false;
         } catch (SQLException e) {
