@@ -35,9 +35,13 @@ public class ShowDatabasesController implements Initializable {
         tb_column_databases.setCellValueFactory(new PropertyValueFactory<ShowDatabases,String>("Dbname"));
         tb_column_showTables.setCellValueFactory(new PropertyValueFactory<ShowDatabases,Button>("Showtable"));
         tb_column_dropDatabase.setCellValueFactory(new PropertyValueFactory<ShowDatabases,Button>("Dropdatabase"));
-        tb_column_databases.setStyle("-fx-alignment: CENTER;");
-        tb_column_showTables.setStyle("-fx-alignment: CENTER;");
-        tb_column_dropDatabase.setStyle("-fx-alignment: CENTER;");
+        tableView.setStyle("-fx-border-color: #D6DBDF; -fx-border-width: 1px 1px 1px 1px;");
+        tb_column_databases.setStyle("-fx-alignment: CENTER;" +
+                "-fx-border-color:  #D6DBDF; -fx-border-width: 0.5px 0.5px 0px 0.5px;");
+        tb_column_showTables.setStyle("-fx-alignment: CENTER;" +
+                "-fx-border-color:  #D6DBDF; -fx-border-width: 0.5px 0.5px 0px 0.5px;");
+        tb_column_dropDatabase.setStyle("-fx-alignment: CENTER;" +
+                "-fx-border-color:  #D6DBDF; -fx-border-width: 0.5px 0.5px 0px 0.5px;");
         Connection connection = null;
         Statement statement = null;
         try {
