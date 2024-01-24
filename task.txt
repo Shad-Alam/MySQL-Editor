@@ -1,0 +1,22 @@
+
+
+	1. Error message
+		- login page
+		- create database page
+			- if type database == already same database
+				>> give a error message
+				
+		- table creation page
+		
+	1. Success message(optional)
+		
+	2. Duplicate value problem
+		- same table name
+	
+	3. btn_create_new_table
+	
+	4. delete table
+	
+	5. load data
+	
+	6. Insertion part
