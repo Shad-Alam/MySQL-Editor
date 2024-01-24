@@ -130,27 +130,25 @@ public class ShowTablesController implements Initializable {
                     btn_delete.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
-                            // delete database
-                            //try {
-//                                Connection connection1 = null;
-//                                Statement statement1 = null;
-//                                connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
-//                                statement1 = connection1.createStatement();
-//                                String sql1 = "DROP DATABASE " + dbname + ";";
-//                                statement1.execute(sql1);
-//                                connection1.close();
-//                                Parent parent =
-//                                        FXMLLoader.load(getClass().getResource("showDatabases.fxml"));
-//                                Scene scene = new Scene(parent);
-//                                Stage stage =
-//                                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-//                                stage.setScene(scene);
-//                                stage.show();
-//                            }catch (IOException e) {
-//                                throw new RuntimeException(e);
-//                            } catch (SQLException e) {
-//                                throw new RuntimeException(e);
-//                            }
+                            // delete table
+                            try {
+                                Connection connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", "shad");
+                                Statement statement1 = connection1.createStatement();
+                                String sql1 = "DROP TABLE " + tablename + ";";
+                                statement1.execute(sql1);
+                                connection1.close();
+                                Parent parent =
+                                        FXMLLoader.load(getClass().getResource("showTables.fxml"));
+                                Scene scene = new Scene(parent);
+                                Stage stage =
+                                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                                stage.setScene(scene);
+                                stage.show();
+                            }catch (IOException e) {
+                                throw new RuntimeException(e);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     });
 //                }
