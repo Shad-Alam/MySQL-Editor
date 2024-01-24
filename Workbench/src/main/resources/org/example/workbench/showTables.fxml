@@ -14,13 +14,13 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="688.0" style="-fx-background-color: #D6DBDF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.workbench.ShowTablesController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="429.0" prefWidth="291.0">
+      <VBox alignment="TOP_CENTER" prefHeight="429.0" prefWidth="322.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="78.0" prefWidth="227.0">
+            <HBox alignment="CENTER" prefHeight="72.0" prefWidth="322.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="156.0" prefWidth="158.0">
                      <children>
-                        <ImageView fitHeight="131.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                        <ImageView fitHeight="68.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                            <image>
                               <Image url="@mysql_logo.png" />
                            </image>
@@ -29,10 +29,10 @@
                   </HBox>
                </children>
             </HBox>
-            <TableView prefHeight="229.0" prefWidth="207.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="createNewTable_tableView" prefHeight="229.0" prefWidth="207.0" VBox.vgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="tb_column_showTableData1" prefWidth="75.0" sortable="false" text="Table Row" />
-                  <TableColumn fx:id="tb_column_dropTable1" prefWidth="75.0" sortable="false" text="Data Type" />
+                  <TableColumn fx:id="tb_column_createTableRow" prefWidth="75.0" sortable="false" text="Table Row" />
+                  <TableColumn fx:id="tb_column_createTableDataType" prefWidth="75.0" sortable="false" text="Data Type" />
                </columns>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -45,29 +45,37 @@
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="476.0">
                      <children>
-                        <TextField prefHeight="24.0" prefWidth="179.0" promptText="Enter table row">
+                        <TextField fx:id="tf_enter_row" prefHeight="24.0" prefWidth="179.0" promptText="Enter table row">
                            <HBox.margin>
-                              <Insets left="10.0" right="5.0" />
+                              <Insets left="10.0" right="3.0" />
                            </HBox.margin>
                         </TextField>
-                        <ComboBox prefHeight="15.0" prefWidth="180.0" promptText="Data Type">
+                        <ComboBox fx:id="combox_data_type" prefHeight="15.0" prefWidth="180.0" promptText="Data Type">
                            <HBox.margin>
-                              <Insets right="5.0" />
+                              <Insets right="3.0" />
                            </HBox.margin>
                         </ComboBox>
-                        <Button mnemonicParsing="false" onAction="#btn_plus" prefHeight="15.0" prefWidth="25.0" style="-fx-border-color: #006400; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: #0A3A39; -fx-text-fill: white;" text="+">
+                        <Button mnemonicParsing="false" onAction="#btn_plus" prefHeight="15.0" prefWidth="25.0" style="-fx-border-color: green; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: green; -fx-text-fill: white;" text="+">
                            <HBox.margin>
-                              <Insets right="10.0" />
+                              <Insets right="3.0" />
                            </HBox.margin>
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Button>
+                        <Button layoutX="298.0" layoutY="15.0" mnemonicParsing="false" onAction="#btn_mius" prefHeight="15.0" prefWidth="25.0" style="-fx-border-color: red; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: red; -fx-text-fill: white;" text="-">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="476.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#btn_create_new_table" prefHeight="20.0" prefWidth="110.0" style="-fx-border-color: purple; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: purple; -fx-text-fill: white;" text="Create Table">
+                        <Button mnemonicParsing="false" onAction="#btn_create_new_table" prefHeight="20.0" prefWidth="110.0" style="-fx-border-color: blue; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: blue; -fx-text-fill: white;" text="Create Table">
                            <font>
                               <Font size="11.0" />
                            </font>

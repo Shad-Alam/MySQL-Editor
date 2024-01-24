@@ -1,5 +1,6 @@
 package org.example.workbench;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,9 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -19,6 +18,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+
+import static javafx.beans.binding.Bindings.*;
 
 public class ShowTablesController implements Initializable {
     public TableView<LoadTableData> tableView;
@@ -28,8 +29,35 @@ public class ShowTablesController implements Initializable {
 
     public ObservableList<LoadTableData> list = FXCollections.observableArrayList();
     public String databasename;
+
+    // create table part
+
+
+    public TableView<Newtable> createNewTable_tableView;
+    public TableColumn<Newtable,String> tb_column_createTableRow;
+    public TableColumn<Newtable,String> tb_column_createTableDataType;
+    public TextField tf_enter_row;
+
+
+    public ComboBox<String> combox_data_type = new ComboBox<String>();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // data type add on combobox
+        combox_data_type.getItems().addAll(
+                "VARCHAR(55)",
+                "INT"
+        );
+        // new table creation part
+        tb_column_createTableRow.setCellValueFactory(new PropertyValueFactory<Newtable,String>("Tablerow"));
+        tb_column_createTableDataType.setCellValueFactory(new PropertyValueFactory<Newtable,String>("Datatype"));
+
+        createNewTable_tableView.setStyle("-fx-border-color: #D6DBDF; -fx-border-width: 1px 1px 1px 1px;");
+        tb_column_createTableRow.setStyle("-fx-alignment: CENTER;" +
+                "-fx-border-color:  #D6DBDF; -fx-border-width: 0.5px 0.5px 0px 0.5px;");
+        tb_column_createTableDataType.setStyle("-fx-alignment: CENTER;" +
+                "-fx-border-color:  #D6DBDF; -fx-border-width: 0.5px 0.5px 0px 0.5px;");
+
+        // all table from database part
         databasename = ShowDatabasesController.databasename;
         tb_column_all_tables.setText("Tables_in_" + databasename);
 
@@ -137,6 +165,29 @@ public class ShowTablesController implements Initializable {
         }
     }
 
+    public void btn_mius(ActionEvent actionEvent) {
+        ObservableList<Newtable> items = createNewTable_tableView.getItems();
+        int selectedID = createNewTable_tableView.getSelectionModel().getSelectedIndex();
+        if(!items.isEmpty() && selectedID==0) {
+            System.out.println(selectedID);
+            createNewTable_tableView.getItems().remove(selectedID);
+        }
+    }
+
+    public void btn_plus(ActionEvent actionEvent) {
+        String tablerow = tf_enter_row.getText();
+        String combox = combox_data_type.getValue();
+        if(tablerow.length()>0 && !combox.equals("Data Type")){
+            Newtable newtable = new Newtable(tablerow,combox);
+            ObservableList<Newtable> list = createNewTable_tableView.getItems();
+            list.add(newtable);
+            createNewTable_tableView.setItems(list);
+            tf_enter_row.setText("");
+        }else{
+            // error message
+        }
+    }
+
     public void btn_create_new_table(ActionEvent actionEvent) {
     }
 
@@ -148,8 +199,5 @@ public class ShowTablesController implements Initializable {
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-    }
-
-    public void btn_plus(ActionEvent actionEvent) {
     }
 }
