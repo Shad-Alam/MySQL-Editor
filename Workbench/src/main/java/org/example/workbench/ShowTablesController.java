@@ -168,7 +168,7 @@ public class ShowTablesController implements Initializable {
     public void btn_mius(ActionEvent actionEvent) {
         ObservableList<Newtable> items = createNewTable_tableView.getItems();
         int selectedID = createNewTable_tableView.getSelectionModel().getSelectedIndex();
-        if(!items.isEmpty() && selectedID==0) {
+        if(!items.isEmpty() && selectedID>=0) {
             System.out.println(selectedID);
             createNewTable_tableView.getItems().remove(selectedID);
         }
