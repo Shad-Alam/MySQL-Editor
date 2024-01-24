@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +41,8 @@ public class ShowTablesController implements Initializable {
 
 
     public ComboBox<String> combox_data_type = new ComboBox<String>();
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // data type add on combobox
@@ -189,6 +192,36 @@ public class ShowTablesController implements Initializable {
     }
 
     public void btn_create_new_table(ActionEvent actionEvent) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", "shad");
+            Statement statement = connection.createStatement();
+            ObservableList<Newtable> list = createNewTable_tableView.getItems();
+            String sm = "INSERT INTO ";
+            for(int a=0; a<list.size(); a++){
+                if(a==list.size()-1){
+                    sm+=list.get(a).getTablerow();
+                    sm+=" ";
+                    sm+=list.get(a).getDatatype();
+                }else{
+                    sm+=list.get(a).getTablerow();
+                    sm+=" ";
+                    sm+=list.get(a).getDatatype();
+                    sm+=",";
+                }
+            }
+
+            sm+=");";
+
+            System.out.println(sm);
+           // String sql = "CREATE TABLE " + tableName + "?";
+        //    ResultSet resultSet = statement.executeQuery(sql);
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void btn_back(ActionEvent actionEvent) throws IOException {

@@ -14,7 +14,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="688.0" style="-fx-background-color: #D6DBDF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.workbench.ShowTablesController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="429.0" prefWidth="322.0">
+      <VBox alignment="TOP_CENTER" prefHeight="429.0" prefWidth="336.0">
          <children>
             <HBox alignment="CENTER" prefHeight="72.0" prefWidth="322.0">
                <children>
@@ -29,7 +29,7 @@
                   </HBox>
                </children>
             </HBox>
-            <TableView fx:id="createNewTable_tableView" prefHeight="229.0" prefWidth="207.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="createNewTable_tableView" prefHeight="228.0" prefWidth="316.0" VBox.vgrow="ALWAYS">
                <columns>
                   <TableColumn fx:id="tb_column_createTableRow" prefWidth="75.0" sortable="false" text="Table Row" />
                   <TableColumn fx:id="tb_column_createTableDataType" prefWidth="75.0" sortable="false" text="Data Type" />
@@ -41,7 +41,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <VBox alignment="CENTER" prefHeight="118.0" prefWidth="249.0">
+            <VBox alignment="CENTER" prefHeight="89.0" prefWidth="336.0">
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="476.0">
                      <children>
@@ -75,9 +75,14 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="476.0">
                      <children>
+                        <TextField fx:id="tf_table_name" prefHeight="24.0" prefWidth="204.0" promptText="Enter table name">
+                           <HBox.margin>
+                              <Insets right="3.0" />
+                           </HBox.margin>
+                        </TextField>
                         <Button mnemonicParsing="false" onAction="#btn_create_new_table" prefHeight="20.0" prefWidth="110.0" style="-fx-border-color: blue; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: blue; -fx-text-fill: white;" text="Create Table">
                            <font>
-                              <Font size="11.0" />
+                              <Font size="10.0" />
                            </font>
                            <HBox.margin>
                               <Insets right="10.0" />
