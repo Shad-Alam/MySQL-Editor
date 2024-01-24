@@ -41,7 +41,9 @@ public class ShowTablesController implements Initializable {
 
 
     public ComboBox<String> combox_data_type = new ComboBox<String>();
+    public TextField tf_table_name;
 
+    boolean emptyChecker = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -186,41 +188,54 @@ public class ShowTablesController implements Initializable {
             list.add(newtable);
             createNewTable_tableView.setItems(list);
             tf_enter_row.setText("");
+            emptyChecker = true;
         }else{
             // error message
         }
     }
 
     public void btn_create_new_table(ActionEvent actionEvent) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", "shad");
-            Statement statement = connection.createStatement();
-            ObservableList<Newtable> list = createNewTable_tableView.getItems();
-            String sm = "INSERT INTO ";
-            for(int a=0; a<list.size(); a++){
-                if(a==list.size()-1){
-                    sm+=list.get(a).getTablerow();
-                    sm+=" ";
-                    sm+=list.get(a).getDatatype();
-                }else{
-                    sm+=list.get(a).getTablerow();
-                    sm+=" ";
-                    sm+=list.get(a).getDatatype();
-                    sm+=",";
+        String tablename = tf_table_name.getText();
+        if(tablename.length()==0 || !emptyChecker){
+            // error message
+        }else {
+            try {
+                ObservableList<Newtable> list = createNewTable_tableView.getItems();
+                String sm = "CREATE TABLE " + tablename + "(";
+                for (int a = 0; a < list.size(); a++) {
+                    if (a == list.size() - 1) {
+                        sm += list.get(a).getTablerow();
+                        sm += " ";
+                        sm += list.get(a).getDatatype();
+                    } else {
+                        sm += list.get(a).getTablerow();
+                        sm += " ";
+                        sm += list.get(a).getDatatype();
+                        sm += ",";
+                    }
                 }
+                sm += ");";
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", "shad");
+                Statement statement = connection.createStatement();
+                statement.execute(sm);
+                connection.close();
+                tf_table_name.setText("");
+
+                Parent parent =
+                        FXMLLoader.load(getClass().getResource("showTables.fxml"));
+                Scene scene = new Scene(parent);
+                Stage stage =
+                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-
-            sm+=");";
-
-            System.out.println(sm);
-           // String sql = "CREATE TABLE " + tableName + "?";
-        //    ResultSet resultSet = statement.executeQuery(sql);
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
