@@ -149,4 +149,7 @@ public class ShowTablesController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void btn_plus(ActionEvent actionEvent) {
+    }
 }
