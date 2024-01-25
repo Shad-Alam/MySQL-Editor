@@ -39,6 +39,11 @@ public class LoadDataController implements Initializable {
         tb_column_fields.setCellValueFactory(new PropertyValueFactory<TableDescription, String>("Fields"));
         tb_column_data.setCellValueFactory(new PropertyValueFactory<TableDescription, TextField>("Data"));
 
+        tb_column_fields.setText(tablename + "Fields");
+        inertTableview.setStyle("-fx-border-color: #D6DBDF; -fx-border-width: 1px 1px 1px 1px;");
+        tb_column_fields.setStyle("-fx-alignment: CENTER;");
+        tb_column_data.setStyle("-fx-alignment: CENTER;");
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
