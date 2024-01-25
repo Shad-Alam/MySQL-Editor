@@ -11,10 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -187,6 +184,27 @@ public class LoadDataController implements Initializable {
     }
 
     public void btn_update(ActionEvent actionEvent) {
+
+        int selectedID = tableView.getSelectionModel().getSelectedIndex();
+        TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
+        ObservableList selectedCells = selectionModel.getSelectedCells();
+        TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+        Object val = tablePosition.getTableColumn().getCellData(selectedID);
+        System.out.println(val);
+
+        // working when a specific cell is selected
+//        TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
+//        ObservableList selectedCells = selectionModel.getSelectedCells();
+//        TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+//        Object val = tablePosition.getTableColumn().getCellData(selectedID);
+//        System.out.println("Selected >> " + selectedID);
+//        for(int a=0; a<tableView.getSelectionModel().getSelectedCells().size(); a++){
+//            System.out.println(tableView.getSelectionModel().getS);
+//        }
+//        if(!items.isEmpty() && selectedID>=0) {
+//            System.out.println(selectedID);
+//            createNewTable_tableView.getItems().remove(selectedID);
+//        }
     }
 
     public void btn_delete(ActionEvent actionEvent) {
