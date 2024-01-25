@@ -164,9 +164,18 @@ public class LoadDataController implements Initializable {
                 statement.execute(insertCmd);
                 // give success message
                 // refresh page
+                Parent parent =
+                        FXMLLoader.load(getClass().getResource("loadData.fxml"));
+                Scene scene = new Scene(parent);
+                Stage stage =
+                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
                 connection.close();
             } catch (SQLException e) {
                 // give a error message
+                throw new RuntimeException(e);
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             System.out.println(insertCmd);
