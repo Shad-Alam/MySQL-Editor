@@ -100,58 +100,38 @@ public class ShowTablesController implements Initializable {
                 btn_delete.setStyle("-fx-background-color: red; -fx-text-fill: white;");
                 // add a handler for btn_delete
 
-//                if(dbname.equals("information_schema") || dbname.equals("mysql") || dbname.equals("performance_schema") ||dbname.equals("sys")){
-//                    btn_showtables.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-//                    btn_delete.setStyle("-fx-background-color: black; -fx-text-fill: white;");
-//                }else{
-                    // add a handler for btn_showtable;
-                    btn_load.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            // pass database name
-//                            btn_showtables.setStyle("-fx-background-color: orange; -fx-text-fill: white;");
+                // add a handler for btn_showtable;
+                btn_load.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
 
-//                            databasename = dbname;
-//                            try {
-//                                Parent parent = FXMLLoader.load(getClass().getResource("showTables.fxml"));
-//                                Scene scene = new Scene(parent);
-//                                Stage stage =
-//                                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-//                                stage.setScene(scene);
-//
-//                                ShowTablesController showTablesController = new ShowTablesController();
-//                                stage.show();
-//                            } catch (IOException e) {
-//                                throw new RuntimeException(e);
-//                            }
-                        }
-                    });
+                    }
+                });
                     // add handler for btn_delete
-                    btn_delete.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            // delete table
-                            try {
-                                Connection connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", "shad");
-                                Statement statement1 = connection1.createStatement();
-                                String sql1 = "DROP TABLE " + tablename + ";";
-                                statement1.execute(sql1);
-                                connection1.close();
-                                Parent parent =
-                                        FXMLLoader.load(getClass().getResource("showTables.fxml"));
-                                Scene scene = new Scene(parent);
-                                Stage stage =
-                                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                                stage.setScene(scene);
-                                stage.show();
-                            }catch (IOException e) {
-                                throw new RuntimeException(e);
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
+                btn_delete.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        // delete table
+                        try {
+                            Connection connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", "shad");
+                            Statement statement1 = connection1.createStatement();
+                            String sql1 = "DROP TABLE " + tablename + ";";
+                            statement1.execute(sql1);
+                            connection1.close();
+                            Parent parent =
+                                    FXMLLoader.load(getClass().getResource("showTables.fxml"));
+                            Scene scene = new Scene(parent);
+                            Stage stage =
+                                    (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                            stage.setScene(scene);
+                            stage.show();
+                        }catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
                         }
-                    });
-//                }
+                    }
+                });
 
                 loadTableData = new LoadTableData(tablename, btn_load, btn_delete);
                 list.add(loadTableData);
