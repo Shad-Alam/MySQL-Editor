@@ -1,5 +1,7 @@
 package org.example.workbench;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,15 +10,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LoadDataController implements Initializable {
@@ -29,12 +34,15 @@ public class LoadDataController implements Initializable {
     ObservableList<String> dataType = FXCollections.observableArrayList();
 
     // load value part
-    public TableView<SelectTableData> tableView;
+    public TableView tableView;
+
+    private ObservableList<ObservableList> data;
 
     public String tablename, insertCmd = "";
     int id = 1;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        data = FXCollections.observableArrayList();
         tablename = ShowTablesController.tbname_store;
         tb_column_fields.setCellValueFactory(new PropertyValueFactory<TableDescription, String>("Fields"));
         tb_column_data.setCellValueFactory(new PropertyValueFactory<TableDescription, TextField>("Data"));
@@ -76,6 +84,52 @@ public class LoadDataController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            List<String> columnNames;
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM " + tablename + ";";
+            ResultSet resultSet = statement.executeQuery(sql);
+            int ssd = 0;
+            for(int a=0; a<resultSet.getMetaData().getColumnCount(); a++){
+                int b = a; ssd = a;
+                TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(a+1));
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue call(TableColumn.CellDataFeatures<ObservableList,String> param) {
+                        return new SimpleStringProperty(param.getValue().get(b).toString());
+                    }
+                });
+                tableView.getColumns().addAll(col);
+            }
+
+            // add update button
+//            TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(ssd+1));
+//            col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, Button>, ObservableValue<Button>>() {
+//                @Override
+//                public ObservableValue call(TableColumn.CellDataFeatures<ObservableList,Button> param) {
+//
+//                    return new SimpleStringProperty(param.getValue().get(ssd).toString());
+//                }
+//            });
+//            tableView.getColumns().addAll(col);
+//            ssd++;
+
+            while(resultSet.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int a=1; a<= resultSet.getMetaData().getColumnCount(); a++){
+                    row.add(resultSet.getString(a));
+                    System.out.println(resultSet.getString(a));
+                }
+                data.add(row);
+            }
+
+            tableView.setItems(data);
+            connection.close();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
