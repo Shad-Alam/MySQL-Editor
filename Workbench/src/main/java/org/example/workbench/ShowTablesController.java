@@ -45,6 +45,8 @@ public class ShowTablesController implements Initializable {
 
     boolean emptyChecker = false;
 
+    public static String tbname_store;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // data type add on combobox
@@ -104,7 +106,18 @@ public class ShowTablesController implements Initializable {
                 btn_load.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
-
+                        tbname_store = tablename;
+                        try{
+                            Parent parent =
+                                    FXMLLoader.load(getClass().getResource("loadData.fxml"));
+                            Scene scene = new Scene(parent);
+                            Stage stage =
+                                    (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                            stage.setScene(scene);
+                            stage.show();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 });
                     // add handler for btn_delete
