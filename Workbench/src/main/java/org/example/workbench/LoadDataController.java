@@ -184,13 +184,16 @@ public class LoadDataController implements Initializable {
     }
 
     public void btn_update(ActionEvent actionEvent) {
-
         int selectedID = tableView.getSelectionModel().getSelectedIndex();
         TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
-        ObservableList selectedCells = selectionModel.getSelectedCells();
-        TablePosition tablePosition = (TablePosition) selectedCells.get(0);
-        Object val = tablePosition.getTableColumn().getCellData(selectedID);
-        System.out.println(val);
+        Object val = selectionModel.getSelectedItem();
+        ObservableList<String> values = (ObservableList<String>) val;
+
+        // Next Day Start from here
+
+        for(int a=1; a<id; a++) {
+            System.out.println(values.get(a-1));
+        }
 
         // working when a specific cell is selected
 //        TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
