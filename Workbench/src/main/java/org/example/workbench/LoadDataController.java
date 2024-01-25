@@ -26,11 +26,12 @@ public class LoadDataController implements Initializable {
     public TableColumn<TableDescription, TextField> tb_column_data;
 
     ObservableList<TableDescription> list = FXCollections.observableArrayList();
+    ObservableList<String> dataType = FXCollections.observableArrayList();
 
     // load value part
     public TableView tableView;
 
-    public String tablename, insertCmd = "INSERT INTO ";
+    public String tablename, insertCmd = "";
     int id = 1;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -43,7 +44,6 @@ public class LoadDataController implements Initializable {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
             Statement statement = connection.createStatement();
             String sql = "DESC " + tablename + ";";
-            insertCmd+= tablename + "(";
             ResultSet resultSet = statement.executeQuery(sql);
             TableDescription tableDescription;
 
@@ -53,8 +53,10 @@ public class LoadDataController implements Initializable {
                 insertCmd+=field + ",";
                 TextField textField = new TextField();
                 if(type.equals("varchar(55)")) {
+                    dataType.add("string");
                     textField.setPromptText("VARCHAR(55)");
                 }else{
+                    dataType.add("int");
                     textField.setPromptText("INT");
                 }
                 textField.setId("tf_" + String.valueOf(id));
@@ -75,13 +77,41 @@ public class LoadDataController implements Initializable {
     }
 
     public void btn_insert(ActionEvent actionEvent) {
-        int index = insertCmd.length()-1;
-        insertCmd = insertCmd.substring(0, index) + ") VALUES(";
-        // complete insert command
-        System.out.println(insertCmd);
-        for(int a=0; a<list.size(); a++){
-            String ss = list.get(a).getData().getText();
-            System.out.println(ss);
+        if(list.size()==id-1) {
+            insertCmd = "INSERT INTO " + tablename + "(";
+            String sm = "";
+            for (int a = 0; a < list.size(); a++) {
+                String td = list.get(a).getFields();
+                String ss = list.get(a).getData().getText();
+                if (a == list.size() - 1) {
+                    if(dataType.get(a).equals("string")) {
+                        sm += "'" + ss + "');";
+                    }else {
+                        sm += ss + ");";
+                    }
+                    insertCmd += td + ") VALUES(" + sm;
+                } else {
+                    if(dataType.get(a).equals("string")) {
+                        sm += "'" + ss + "',";
+                    }else {
+                        sm += ss + ",";
+                    }
+                    insertCmd += td + ",";
+                }
+            }
+
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+                Statement statement = connection.createStatement();
+                statement.execute(insertCmd);
+                // give success message
+                connection.close();
+            } catch (SQLException e) {
+                // give a error message
+                throw new RuntimeException(e);
+            }
+            System.out.println(insertCmd);
+            insertCmd = "";
         }
     }
 
