@@ -43,12 +43,28 @@
                <children>
                   <HBox alignment="TOP_RIGHT" prefHeight="65.0" prefWidth="336.0">
                      <children>
+                        <Button layoutX="139.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_delete" prefHeight="20.0" prefWidth="70.0" style="-fx-border-color: red; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: red; -fx-text-fill: white;" text="Delete">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="3.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button layoutX="209.0" layoutY="10.0" mnemonicParsing="false" onAction="#btn_update" prefHeight="20.0" prefWidth="70.0" style="-fx-border-color: blue; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: blue; -fx-text-fill: white;" text="Update">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="3.0" />
+                           </HBox.margin>
+                        </Button>
                         <Button mnemonicParsing="false" onAction="#btn_insert" prefHeight="20.0" prefWidth="70.0" style="-fx-border-color: green; -fx-border-width: 1px 1px 1px 1px; -fx-border-radius: 5px; -fx-background-color: green; -fx-text-fill: white;" text="Insert">
                            <font>
                               <Font size="12.0" />
                            </font>
                            <HBox.margin>
-                              <Insets right="10.0" />
+                              <Insets right="3.0" />
                            </HBox.margin>
                         </Button>
                      </children>

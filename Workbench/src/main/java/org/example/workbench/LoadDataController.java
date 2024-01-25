@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -37,12 +38,14 @@ public class LoadDataController implements Initializable {
     public TableView tableView;
 
     private ObservableList<ObservableList> data;
+    private ObservableList<ObservableList<Button>> buttons;
 
     public String tablename, insertCmd = "";
     int id = 1;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         data = FXCollections.observableArrayList();
+        buttons = FXCollections.observableArrayList();
         tablename = ShowTablesController.tbname_store;
         tb_column_fields.setCellValueFactory(new PropertyValueFactory<TableDescription, String>("Fields"));
         tb_column_data.setCellValueFactory(new PropertyValueFactory<TableDescription, TextField>("Data"));
@@ -77,7 +80,6 @@ public class LoadDataController implements Initializable {
                 tableDescription = new TableDescription(field, textField);
                 list.add(tableDescription);
                 inertTableview.setItems(list);
-
                 System.out.println(field + " " + type);
             }
             connection.close();
@@ -88,41 +90,28 @@ public class LoadDataController implements Initializable {
         }
 
         try {
-            List<String> columnNames;
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
             Statement statement = connection.createStatement();
             String sql = "SELECT * FROM " + tablename + ";";
             ResultSet resultSet = statement.executeQuery(sql);
             int ssd = 0;
             for(int a=0; a<resultSet.getMetaData().getColumnCount(); a++){
-                int b = a; ssd = a;
-                TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(a+1));
-                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>, ObservableValue<String>>() {
+                int b = a;
+                TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(a + 1));
+                col.setStyle("-fx-alignment: CENTER;");
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
                     @Override
-                    public ObservableValue call(TableColumn.CellDataFeatures<ObservableList,String> param) {
+                    public ObservableValue call(TableColumn.CellDataFeatures<ObservableList, String> param) {
                         return new SimpleStringProperty(param.getValue().get(b).toString());
                     }
                 });
                 tableView.getColumns().addAll(col);
             }
 
-            // add update button
-//            TableColumn col = new TableColumn(resultSet.getMetaData().getColumnName(ssd+1));
-//            col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, Button>, ObservableValue<Button>>() {
-//                @Override
-//                public ObservableValue call(TableColumn.CellDataFeatures<ObservableList,Button> param) {
-//
-//                    return new SimpleStringProperty(param.getValue().get(ssd).toString());
-//                }
-//            });
-//            tableView.getColumns().addAll(col);
-//            ssd++;
-
             while(resultSet.next()){
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for(int a=1; a<= resultSet.getMetaData().getColumnCount(); a++){
                     row.add(resultSet.getString(a));
-                    System.out.println(resultSet.getString(a));
                 }
                 data.add(row);
             }
@@ -138,7 +127,7 @@ public class LoadDataController implements Initializable {
         if(list.size()==id-1) {
             insertCmd = "INSERT INTO " + tablename + "(";
             String sm = "";
-            for (int a = 0; a < list.size(); a++) {
+            for (int a = 1; a < list.size(); a++) {
                 String td = list.get(a).getFields();
                 String ss = list.get(a).getData().getText();
                 if (a == list.size() - 1) {
@@ -191,5 +180,12 @@ public class LoadDataController implements Initializable {
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void btn_update(ActionEvent actionEvent) {
+    }
+
+    public void btn_delete(ActionEvent actionEvent) {
+
     }
 }

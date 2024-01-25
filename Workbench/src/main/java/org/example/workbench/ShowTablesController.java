@@ -190,9 +190,13 @@ public class ShowTablesController implements Initializable {
         if(tablename.length()==0 || !emptyChecker){
             // error message
         }else {
+//            CREATE TABLE `mydb`.`new_table` (
+//  `serial` INT NOT NULL AUTO_INCREMENT,
+//  `name` VARCHAR(45) NULL,
+//                    PRIMARY KEY (`serial`));
             try {
                 ObservableList<Newtable> list = createNewTable_tableView.getItems();
-                String sm = "CREATE TABLE " + tablename + "(";
+                String sm = "CREATE TABLE " + tablename + "(IDK INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(IDK), ";
                 for (int a = 0; a < list.size(); a++) {
                     if (a == list.size() - 1) {
                         sm += list.get(a).getTablerow();
