@@ -28,7 +28,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TextField fx:id="tf_dbname">
+                        <TextField fx:id="tf_dbname" editable="false">
                            <font>
                               <Font size="17.0" />
                            </font>

@@ -67,7 +67,11 @@ public class LoadDataController implements Initializable {
                 String type = resultSet.getString("Type");
                 insertCmd+=field + ",";
                 TextField textField = new TextField();
-                if(type.equals("varchar(55)")) {
+                if(field.equals("IDK")){
+                    textField.setDisable(true);
+                    textField.setPromptText("Primary Key");
+                    dataType.add("int");
+                }else if(type.equals("varchar(55)")) {
                     dataType.add("string");
                     textField.setPromptText("VARCHAR(55)");
                 }else{
