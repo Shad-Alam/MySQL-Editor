@@ -189,7 +189,65 @@ public class LoadDataController implements Initializable {
 
     // update table data
     public void btn_update(ActionEvent actionEvent) {
+        TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
+        Object val = selectionModel.getSelectedItem();
+        ObservableList<String> values = (ObservableList<String>) val;
         System.out.println(updateCmd);
+        if(!primaryKey.equals("-1")) {
+            try {
+                updateCmd = "UPDATE " + tablename + " SET ";
+                // get selected column value from dynamic table view
+                for (int a = 0; a <list.size(); a++) {
+                    String field = list.get(a).getFields();
+                    String value = list.get(a).getData().getText();
+                    String datatype = dataType.get(a);
+                    if(a>0){
+                        System.out.println(field + " " + datatype);
+                        if(a==list.size()-1){
+                            if (datatype.equals("int")) {
+                                updateCmd += field + " = " + value + " ";
+                            } else {
+                                updateCmd += field + " = '" + value + "' ";
+                            }
+                        }else {
+                            if (datatype.equals("int")) {
+                                updateCmd += field + " = " + value + ",";
+                            } else {
+                                updateCmd += field + " = '" + value + "',";
+                            }
+                        }
+                    }
+                }
+
+                updateCmd+= " WHERE IDK = " + primaryKey + ";";
+
+                System.out.println(updateCmd);
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+                Statement statement = connection.createStatement();
+                statement.execute(updateCmd);
+                // give success message
+                // refresh page
+                Parent parent =
+                        FXMLLoader.load(getClass().getResource("loadData.fxml"));
+                Scene scene = new Scene(parent);
+                Stage stage =
+                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+                connection.close();
+            } catch (SQLException e) {
+                // give a error message
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                // give a error message
+                throw new RuntimeException(e);
+            }
+        }else{
+            // error message here
+        }
+
+        primaryKey = "-1";
+        updateCmd = "";
     }
 
     // delete table data
@@ -203,31 +261,14 @@ public class LoadDataController implements Initializable {
         Object val = selectionModel.getSelectedItem();
         ObservableList<String> values = (ObservableList<String>) val;
 
-        // update Person set Name = "Zoy" where Age = 34;
-        updateCmd = "UPDATE " + tablename + " SET ";
         // get selected column value from dynamic table view
         for (int a = 0; a <list.size(); a++) {
             String field = list.get(a).getFields();
             String datatype = dataType.get(a);
             if(a==0){
                 primaryKey = values.get(a);
-            }else {
-                System.out.println(field + " " + datatype);
-                if(a==list.size()-1){
-                    if (datatype.equals("int")) {
-                        updateCmd += field + " = " + values.get(a) + " ";
-                    } else {
-                        updateCmd += field + " = '" + values.get(a) + "' ";
-                    }
-                }else {
-                    if (datatype.equals("int")) {
-                        updateCmd += field + " = " + values.get(a) + ",";
-                    } else {
-                        updateCmd += field + " = '" + values.get(a) + "',";
-                    }
-                }
-                list.get(a).getData().setText(values.get(a));
             }
+            list.get(a).getData().setText(values.get(a));
         }
 
         updateCmd+= " WHERE IDK = " + primaryKey + ";";
