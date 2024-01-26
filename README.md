@@ -6,7 +6,7 @@
 
 :writing_hand: **Description:** <br/>
 
-- . <br/>
+- This is MySQL Server Management project. This project goal is to communicate with MySQL server. Create Database and Table dynamically from user interface. <br/>
 
 ## Project presentation: 
 
