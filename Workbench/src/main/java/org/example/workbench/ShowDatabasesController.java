@@ -49,7 +49,6 @@ public class ShowDatabasesController implements Initializable {
             statement = connection.createStatement();
             String sql = "SHOW DATABASES";
             ResultSet resultSet = statement.executeQuery(sql);
-
             ShowDatabases showDatabases;
             int result = 0;
             while(resultSet.next()){
@@ -72,18 +71,10 @@ public class ShowDatabasesController implements Initializable {
                         @Override
                         public void handle(ActionEvent actionEvent) {
                             // pass database name
-//                            btn_showtables.setStyle("-fx-background-color: orange; -fx-text-fill: white;");
-
                             databasename = dbname;
                             try {
-                                Parent parent = FXMLLoader.load(getClass().getResource("showTables.fxml"));
-                                Scene scene = new Scene(parent);
-                                Stage stage =
-                                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                                stage.setScene(scene);
-
-                                ShowTablesController showTablesController = new ShowTablesController();
-                                stage.show();
+                                // goto showTables pages
+                                changePage(actionEvent, "showTables.fxml");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -95,7 +86,6 @@ public class ShowDatabasesController implements Initializable {
                         public void handle(ActionEvent actionEvent) {
                             // delete database
                             try {
-//                                Class.forName("com.mysql.jdbc.Driver");
                                 Connection connection1 = null;
                                 Statement statement1 = null;
                                 connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
@@ -103,13 +93,8 @@ public class ShowDatabasesController implements Initializable {
                                 String sql1 = "DROP DATABASE " + dbname + ";";
                                 statement1.execute(sql1);
                                 connection1.close();
-                                Parent parent =
-                                        FXMLLoader.load(getClass().getResource("showDatabases.fxml"));
-                                Scene scene = new Scene(parent);
-                                Stage stage =
-                                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                                stage.setScene(scene);
-                                stage.show();
+                                // refresh page
+                                changePage(actionEvent, "showDatabases.fxml");
                             }catch (IOException e) {
                                 throw new RuntimeException(e);
                             } catch (SQLException e) {
@@ -140,36 +125,35 @@ public class ShowDatabasesController implements Initializable {
             Connection connection = null;
             Statement statement = null;
             try {
-                Class.forName("com.mysql.jdbc.Driver");
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
                 statement = connection.createStatement();
                 String sql = "CREATE DATABASE " + dbname;
-
                 statement.execute(sql);
-
                 connection.close();
-                Parent parent =
-                    FXMLLoader.load(getClass().getResource("showDatabases.fxml"));
-                Scene scene = new Scene(parent);
-                Stage stage =
-                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                // refresh page
+                changePage(actionEvent,"showDatabases.fxml");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
             }
+        }else{
+            // error message
+            // insert db name
         }
     }
 
     public void btn_logout(ActionEvent actionEvent) throws IOException {
+        changePage(actionEvent,"userLogIn.fxml");
+    }
+
+    private void changePage(ActionEvent actionEvent, String page) throws IOException {
         Parent parent =
-                FXMLLoader.load(getClass().getResource("userLogIn.fxml"));
+                FXMLLoader.load(getClass().getResource(page));
         Scene scene = new Scene(parent);
         Stage stage =
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.minWidthProperty().bind(scene.heightProperty().multiply(1));
+        stage.minHeightProperty().bind(scene.widthProperty().divide(2));
         stage.show();
     }
 }

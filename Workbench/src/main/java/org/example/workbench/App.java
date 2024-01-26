@@ -14,6 +14,8 @@ public class App extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Mysql Workbench");
         stage.setScene(scene);
+        stage.minWidthProperty().bind(scene.heightProperty().multiply(1));
+        stage.minHeightProperty().bind(scene.widthProperty().divide(2));
         stage.show();
     }
 
