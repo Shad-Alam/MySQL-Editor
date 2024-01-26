@@ -27,10 +27,11 @@ public class ShowDatabasesController implements Initializable {
 
     public ObservableList<ShowDatabases> list = FXCollections.observableArrayList();
     public TextField tf_dbname;
-
     public static String databasename = "---";
+    AlertMessage message;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        message = new AlertMessage();
         tb_column_databases.setCellValueFactory(new PropertyValueFactory<ShowDatabases,String>("Dbname"));
         tb_column_showTables.setCellValueFactory(new PropertyValueFactory<ShowDatabases,Button>("Showtable"));
         tb_column_dropDatabase.setCellValueFactory(new PropertyValueFactory<ShowDatabases,Button>("Dropdatabase"));
@@ -93,6 +94,7 @@ public class ShowDatabasesController implements Initializable {
                                 String sql1 = "DROP DATABASE " + dbname + ";";
                                 statement1.execute(sql1);
                                 connection1.close();
+                                message.succces("Data Delete", "Database Deleted Successfully.");
                                 // refresh page
                                 changePage(actionEvent, "showDatabases.fxml");
                             }catch (IOException e) {
@@ -113,8 +115,10 @@ public class ShowDatabasesController implements Initializable {
 
             connection.close();
         } catch (SQLException e) {
+            message.error("MySQL Sever", "Database connection problem.");
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
+            message.error("MySQL Sever", "Database connection problem.");
             throw new RuntimeException(e);
         }
     }
@@ -130,14 +134,16 @@ public class ShowDatabasesController implements Initializable {
                 String sql = "CREATE DATABASE " + dbname;
                 statement.execute(sql);
                 connection.close();
+                message.succces("Database Creation", "Database Created Successfully.");
                 // refresh page
                 changePage(actionEvent,"showDatabases.fxml");
             } catch (SQLException e) {
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             }
         }else{
             // error message
-            // insert db name
+            message.error("Database Creation", "Insert Database Name Unique.");
         }
     }
 

@@ -123,6 +123,7 @@ public class ShowTablesController implements Initializable {
                             String sql1 = "DROP TABLE " + tablename + ";";
                             statement1.execute(sql1);
                             connection1.close();
+                            message.succces("Table Delete", "Table Deleted Successfully.");
                             // refresh page
                             changePage(actionEvent, "showTables.fxml");
                         }catch (IOException e) {
