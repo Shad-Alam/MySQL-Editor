@@ -44,8 +44,10 @@ public class ShowTablesController implements Initializable {
 
     public static String tbname_store;
 
+    AlertMessage message;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        message = new AlertMessage();
         // data type add on combobox
         combox_data_type.getItems().addAll(
                 "VARCHAR(55)",
@@ -139,8 +141,12 @@ public class ShowTablesController implements Initializable {
 
             connection.close();
         } catch (SQLException e) {
+            // error message
+            message.error("MySQL Sever", "Database connection problem.");
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
+            // error message
+            message.error("MySQL Sever", "Database connection problem.");
             throw new RuntimeException(e);
         }
     }
@@ -149,23 +155,27 @@ public class ShowTablesController implements Initializable {
         ObservableList<Newtable> items = createNewTable_tableView.getItems();
         int selectedID = createNewTable_tableView.getSelectionModel().getSelectedIndex();
         if(!items.isEmpty() && selectedID>=0) {
-            System.out.println(selectedID);
             createNewTable_tableView.getItems().remove(selectedID);
+        }else{
+            // error message
+            message.error("Table Creation", "Empty Table.");
         }
     }
 
     public void btn_plus(ActionEvent actionEvent) {
         String tablerow = tf_enter_row.getText();
         String combox = combox_data_type.getValue();
-        if(tablerow.length()>0 && !combox.equals("Data Type")){
+        System.out.println(">>> " + combox);
+        if(tablerow.length()==0 || combox == null){
+            // error message
+            message.error("Field Creation", "Invalid Row and Data Type");
+        }else{
             Newtable newtable = new Newtable(tablerow,combox);
             ObservableList<Newtable> list = createNewTable_tableView.getItems();
             list.add(newtable);
             createNewTable_tableView.setItems(list);
             tf_enter_row.setText("");
             emptyChecker = true;
-        }else{
-            // error message
         }
     }
 
@@ -173,6 +183,7 @@ public class ShowTablesController implements Initializable {
         String tablename = tf_table_name.getText();
         if(tablename.length()==0 || !emptyChecker){
             // error message
+            message.error("Table Creation", "Invalid Table.");
         }else {
             try {
                 ObservableList<Newtable> list = createNewTable_tableView.getItems();
@@ -195,11 +206,15 @@ public class ShowTablesController implements Initializable {
                 statement.execute(sm);
                 connection.close();
                 tf_table_name.setText("");
+                message.succces("Table Creation", "Table Created Successfully.");
                 // refresh page
                 changePage(actionEvent, "showTables.fxml");
             } catch (SQLException e) {
+                // error message
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             }catch (IOException e) {
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             }
         }
