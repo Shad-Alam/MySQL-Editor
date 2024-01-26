@@ -201,7 +201,7 @@ public class LoadDataController implements Initializable {
         ObservableList<String> values = (ObservableList<String>) val;
 
         // get selected column value from dynamic table view
-        for (int a = 0; a <id; a++) {
+        for (int a = 0; a <list.size(); a++) {
             list.get(a).getData().setText(values.get(a));
         }
 
@@ -221,5 +221,8 @@ public class LoadDataController implements Initializable {
     }
 
     public void btn_clear(ActionEvent actionEvent) {
+        for (int a = 0; a <list.size(); a++) {
+            list.get(a).getData().setText("");
+        }
     }
 }
