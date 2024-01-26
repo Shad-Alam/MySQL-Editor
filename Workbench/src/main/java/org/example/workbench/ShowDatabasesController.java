@@ -152,8 +152,6 @@ public class ShowDatabasesController implements Initializable {
         Stage stage =
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
-        stage.minWidthProperty().bind(scene.heightProperty().multiply(1));
-        stage.minHeightProperty().bind(scene.widthProperty().divide(2));
         stage.show();
     }
 }

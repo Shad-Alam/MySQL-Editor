@@ -32,13 +32,10 @@ public class ShowTablesController implements Initializable {
     public String databasename;
 
     // create table part
-
-
     public TableView<Newtable> createNewTable_tableView;
     public TableColumn<Newtable,String> tb_column_createTableRow;
     public TableColumn<Newtable,String> tb_column_createTableDataType;
     public TextField tf_enter_row;
-
 
     public ComboBox<String> combox_data_type = new ComboBox<String>();
     public TextField tf_table_name;
@@ -90,7 +87,6 @@ public class ShowTablesController implements Initializable {
             ResultSet resultSet = statement.executeQuery(sql);
 
             LoadTableData loadTableData;
-            int result = 0;
             while(resultSet.next()){
                 String tablename = resultSet.getString("Tables_in_" + databasename);
                 Button btn_load = new Button("Load");
@@ -100,7 +96,6 @@ public class ShowTablesController implements Initializable {
                 Button btn_delete = new Button("Delete");
                 btn_delete.setMaxWidth(80);
                 btn_delete.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-                // add a handler for btn_delete
 
                 // add a handler for btn_showtable;
                 btn_load.setOnAction(new EventHandler<ActionEvent>() {
@@ -108,19 +103,14 @@ public class ShowTablesController implements Initializable {
                     public void handle(ActionEvent actionEvent) {
                         tbname_store = tablename;
                         try{
-                            Parent parent =
-                                    FXMLLoader.load(getClass().getResource("loadData.fxml"));
-                            Scene scene = new Scene(parent);
-                            Stage stage =
-                                    (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                            stage.setScene(scene);
-                            stage.show();
+                            // goto loadData page
+                            changePage(actionEvent, "loadData.fxml");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     }
                 });
-                    // add handler for btn_delete
+                // add handler for btn_delete
                 btn_delete.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
@@ -131,13 +121,8 @@ public class ShowTablesController implements Initializable {
                             String sql1 = "DROP TABLE " + tablename + ";";
                             statement1.execute(sql1);
                             connection1.close();
-                            Parent parent =
-                                    FXMLLoader.load(getClass().getResource("showTables.fxml"));
-                            Scene scene = new Scene(parent);
-                            Stage stage =
-                                    (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                            stage.setScene(scene);
-                            stage.show();
+                            // refresh page
+                            changePage(actionEvent, "showTables.fxml");
                         }catch (IOException e) {
                             throw new RuntimeException(e);
                         } catch (SQLException e) {
@@ -149,7 +134,6 @@ public class ShowTablesController implements Initializable {
                 loadTableData = new LoadTableData(tablename, btn_load, btn_delete);
                 list.add(loadTableData);
                 tableView.setItems(list);
-                result++;
                 System.out.println(tablename);
             }
 
@@ -190,10 +174,6 @@ public class ShowTablesController implements Initializable {
         if(tablename.length()==0 || !emptyChecker){
             // error message
         }else {
-//            CREATE TABLE `mydb`.`new_table` (
-//  `serial` INT NOT NULL AUTO_INCREMENT,
-//  `name` VARCHAR(45) NULL,
-//                    PRIMARY KEY (`serial`));
             try {
                 ObservableList<Newtable> list = createNewTable_tableView.getItems();
                 String sm = "CREATE TABLE " + tablename + "(IDK INT NOT NULL AUTO_INCREMENT, PRIMARY KEY(IDK), ";
@@ -210,33 +190,28 @@ public class ShowTablesController implements Initializable {
                     }
                 }
                 sm += ");";
-                Class.forName("com.mysql.jdbc.Driver");
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", "shad");
                 Statement statement = connection.createStatement();
                 statement.execute(sm);
                 connection.close();
                 tf_table_name.setText("");
-
-                Parent parent =
-                        FXMLLoader.load(getClass().getResource("showTables.fxml"));
-                Scene scene = new Scene(parent);
-                Stage stage =
-                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                // refresh page
+                changePage(actionEvent, "showTables.fxml");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
+            }catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
     public void btn_back(ActionEvent actionEvent) throws IOException {
+        changePage(actionEvent,"showDatabases.fxml");
+    }
+
+    private void changePage(ActionEvent actionEvent, String page) throws IOException {
         Parent parent =
-                FXMLLoader.load(getClass().getResource("showDatabases.fxml"));
+                FXMLLoader.load(getClass().getResource(page));
         Scene scene = new Scene(parent);
         Stage stage =
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

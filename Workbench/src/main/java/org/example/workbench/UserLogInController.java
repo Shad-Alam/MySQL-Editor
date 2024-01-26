@@ -48,17 +48,23 @@ public class UserLogInController implements Initializable {
         String password = tf_password.getText();
         // check password match or not
         if(checkPassword(password)){
-            Parent parent =
-                    FXMLLoader.load(getClass().getResource("showDatabases.fxml"));
-            Scene scene = new Scene(parent);
-            Stage stage =
-                    (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-            System.out.println("Connected Successfully");
             // give a success message
+
+            // goto showDatabases page after, connect to the server
+            changePage(actionEvent, "showDatabases.fxml");
+            System.out.println("Connected Successfully");
         }else{
             // give a error message
         }
+    }
+
+    private void changePage(ActionEvent actionEvent, String page) throws IOException {
+        Parent parent =
+                FXMLLoader.load(getClass().getResource(page));
+        Scene scene = new Scene(parent);
+        Stage stage =
+                (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }

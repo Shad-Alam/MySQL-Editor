@@ -153,16 +153,10 @@ public class LoadDataController implements Initializable {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
                 Statement statement = connection.createStatement();
                 statement.execute(insertCmd);
+                connection.close();
                 // give success message
                 // refresh page
-                Parent parent =
-                        FXMLLoader.load(getClass().getResource("loadData.fxml"));
-                Scene scene = new Scene(parent);
-                Stage stage =
-                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-                connection.close();
+                changePage(actionEvent,"loadData.fxml");
             } catch (SQLException e) {
                 // give a error message
                 throw new RuntimeException(e);
@@ -178,13 +172,7 @@ public class LoadDataController implements Initializable {
     }
 
     public void btn_back(ActionEvent actionEvent) throws IOException {
-        Parent parent =
-                FXMLLoader.load(getClass().getResource("showTables.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage =
-                (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        changePage(actionEvent,"showTables.fxml");
     }
 
     // update table data
@@ -228,13 +216,7 @@ public class LoadDataController implements Initializable {
                 connection.close();
                 // give success message
                 // refresh page
-                Parent parent =
-                        FXMLLoader.load(getClass().getResource("loadData.fxml"));
-                Scene scene = new Scene(parent);
-                Stage stage =
-                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                changePage(actionEvent, "loadData.fxml");
             } catch (SQLException e) {
                 // give a error message
                 throw new RuntimeException(e);
@@ -261,13 +243,8 @@ public class LoadDataController implements Initializable {
                 Statement statement = connection.createStatement();
                 statement.execute(sql);
                 connection.close();
-                Parent parent =
-                        FXMLLoader.load(getClass().getResource("loadData.fxml"));
-                Scene scene = new Scene(parent);
-                Stage stage =
-                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                // refresh page
+                changePage(actionEvent, "loadData.fxml");
             } catch (SQLException e) {
                 // error message
                 throw new RuntimeException(e);
@@ -299,24 +276,21 @@ public class LoadDataController implements Initializable {
         }
 
         updateCmd+= " WHERE IDK = " + primaryKey + ";";
-        // working when a specific cell is selected
-//        TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
-//        ObservableList selectedCells = selectionModel.getSelectedCells();
-//        TablePosition tablePosition = (TablePosition) selectedCells.get(0);
-//        Object val = tablePosition.getTableColumn().getCellData(selectedID);
-//        System.out.println("Selected >> " + selectedID);
-//        for(int a=0; a<tableView.getSelectionModel().getSelectedCells().size(); a++){
-//            System.out.println(tableView.getSelectionModel().getS);
-//        }
-//        if(!items.isEmpty() && selectedID>=0) {
-//            System.out.println(selectedID);
-//            createNewTable_tableView.getItems().remove(selectedID);
-//        }
     }
 
     public void btn_clear(ActionEvent actionEvent) {
         for (int a = 0; a <list.size(); a++) {
             list.get(a).getData().setText("");
         }
+    }
+
+    private void changePage(ActionEvent actionEvent, String page) throws IOException {
+        Parent parent =
+                FXMLLoader.load(getClass().getResource(page));
+        Scene scene = new Scene(parent);
+        Stage stage =
+                (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }

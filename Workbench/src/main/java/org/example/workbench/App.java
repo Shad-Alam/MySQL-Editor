@@ -11,11 +11,9 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("userLogIn.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load(),900,500);
         stage.setTitle("Mysql Workbench");
         stage.setScene(scene);
-        stage.minWidthProperty().bind(scene.heightProperty().multiply(1));
-        stage.minHeightProperty().bind(scene.widthProperty().divide(2));
         stage.show();
     }
 
