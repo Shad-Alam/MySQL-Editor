@@ -6,13 +6,13 @@
 
 :writing_hand: **Description:** <br/>
 
-- Sudoku is very popular game. In this project, I was trying to generate sudoku puzzle with five different levels. <br/>
+- . <br/>
 
 ## Project presentation: 
 
 <br/> 
 
-![ezcv logo](https://github.com/Shad-Alam/MySQL-Workbench/tree/main/screenshots/01.png)
+![ezcv logo](https://github.com/Shad-Alam/MySQL-Workbench/main/screenshots/01.png)
 
 <br/> 
 
