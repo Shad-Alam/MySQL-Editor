@@ -225,6 +225,7 @@ public class LoadDataController implements Initializable {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
                 Statement statement = connection.createStatement();
                 statement.execute(updateCmd);
+                connection.close();
                 // give success message
                 // refresh page
                 Parent parent =
@@ -234,7 +235,6 @@ public class LoadDataController implements Initializable {
                         (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
-                connection.close();
             } catch (SQLException e) {
                 // give a error message
                 throw new RuntimeException(e);
@@ -244,6 +244,7 @@ public class LoadDataController implements Initializable {
             }
         }else{
             // error message here
+            // please select any column
         }
 
         primaryKey = "-1";
@@ -252,7 +253,33 @@ public class LoadDataController implements Initializable {
 
     // delete table data
     public void btn_delete(ActionEvent actionEvent) {
+        if(!primaryKey.equals("-1")){
+            String sql = "DELETE FROM " + tablename + " WHERE IDK = " + primaryKey + ";";
+            System.out.println(sql);
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+                Statement statement = connection.createStatement();
+                statement.execute(sql);
+                connection.close();
+                Parent parent =
+                        FXMLLoader.load(getClass().getResource("loadData.fxml"));
+                Scene scene = new Scene(parent);
+                Stage stage =
+                        (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (SQLException e) {
+                // error message
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            // error message
+            // please select any column
+        }
 
+        primaryKey = "-1";
     }
 
     public void btn_select(ActionEvent actionEvent) {
