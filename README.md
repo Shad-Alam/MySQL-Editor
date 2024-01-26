@@ -12,7 +12,7 @@
 
 <br/> 
 
-![ezcv logo]([https://github.com/Shad-Alam/MySQL-Workbench/screenshots/01.png](https://github.com/Shad-Alam/MySQL-Workbench/blob/main/screenshots/1.png))
+![ezcv logo](https://github.com/Shad-Alam/MySQL-Workbench/screenshots/01.png](https://github.com/Shad-Alam/MySQL-Workbench/blob/main/screenshots/1.png)
 
 <br/> 
 
