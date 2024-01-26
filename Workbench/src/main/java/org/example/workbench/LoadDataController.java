@@ -187,6 +187,14 @@ public class LoadDataController implements Initializable {
     }
 
     public void btn_update(ActionEvent actionEvent) {
+
+    }
+
+    public void btn_delete(ActionEvent actionEvent) {
+
+    }
+
+    public void btn_select(ActionEvent actionEvent) {
         int selectedID = tableView.getSelectionModel().getSelectedIndex();
         TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
         Object val = selectionModel.getSelectedItem();
@@ -212,7 +220,6 @@ public class LoadDataController implements Initializable {
 //        }
     }
 
-    public void btn_delete(ActionEvent actionEvent) {
-
+    public void btn_clear(ActionEvent actionEvent) {
     }
 }
