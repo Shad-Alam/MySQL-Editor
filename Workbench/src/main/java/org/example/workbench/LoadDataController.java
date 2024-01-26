@@ -40,8 +40,11 @@ public class LoadDataController implements Initializable {
     public String tablename, insertCmd = "", updateCmd = "";
     private String primaryKey = "-1";
     int id = 1;
+
+    AlertMessage message;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        message = new AlertMessage();
         data = FXCollections.observableArrayList();
         buttons = FXCollections.observableArrayList();
         tablename = ShowTablesController.tbname_store;
@@ -121,6 +124,8 @@ public class LoadDataController implements Initializable {
             tableView.setItems(data);
             connection.close();
         } catch (SQLException e) {
+            // error message
+            message.error("MySQL Sever", "Database connection problem.");
             throw new RuntimeException(e);
         }
     }
@@ -128,10 +133,13 @@ public class LoadDataController implements Initializable {
     public void btn_insert(ActionEvent actionEvent) {
         if(list.size()==id-1) {
             insertCmd = "INSERT INTO " + tablename + "(";
-            String sm = "";
+            String sm = ""; boolean port = false;
             for (int a = 1; a < list.size(); a++) {
                 String td = list.get(a).getFields();
                 String ss = list.get(a).getData().getText();
+                if(ss.length()==0){
+                    port = true;
+                }
                 if (a == list.size() - 1) {
                     if(dataType.get(a).equals("string")) {
                         sm += "'" + ss + "');";
@@ -148,26 +156,33 @@ public class LoadDataController implements Initializable {
                     insertCmd += td + ",";
                 }
             }
-
+            if(port){
+                message.error("Data Insertion", "Fill up all Textfield.");
+                return;
+            }
             try {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
                 Statement statement = connection.createStatement();
                 statement.execute(insertCmd);
                 connection.close();
                 // give success message
+                message.succces("Table Data", "Data Inserted Successfully.");
                 // refresh page
                 changePage(actionEvent,"loadData.fxml");
             } catch (SQLException e) {
-                // give a error message
+                // give error message
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             } catch (IOException e) {
-                // give a error message
+                // give error message
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             }
             System.out.println(insertCmd);
             insertCmd = "";
         }else{
             // error message
+            message.error("Table Delete", "Fill up all Textfield.");
         }
     }
 
@@ -206,27 +221,27 @@ public class LoadDataController implements Initializable {
                         }
                     }
                 }
-
                 updateCmd+= " WHERE IDK = " + primaryKey + ";";
-
-                System.out.println(updateCmd);
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
                 Statement statement = connection.createStatement();
                 statement.execute(updateCmd);
                 connection.close();
                 // give success message
+                message.succces("Table Data", "Column Data Updated Successfully.");
                 // refresh page
                 changePage(actionEvent, "loadData.fxml");
             } catch (SQLException e) {
-                // give a error message
+                // give error message
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             } catch (IOException e) {
-                // give a error message
+                // give error message
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             }
         }else{
             // error message here
-            // please select any column
+            message.error("Table Update", "Choose any column and press Select Button.");
         }
 
         primaryKey = "-1";
@@ -243,24 +258,27 @@ public class LoadDataController implements Initializable {
                 Statement statement = connection.createStatement();
                 statement.execute(sql);
                 connection.close();
+                message.succces("Table Data", "Column Data Deletion Successfully.");
                 // refresh page
                 changePage(actionEvent, "loadData.fxml");
             } catch (SQLException e) {
                 // error message
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             } catch (IOException e) {
+                // error message
+                message.error("MySQL Sever", "Database connection problem.");
                 throw new RuntimeException(e);
             }
         }else{
             // error message
-            // please select any column
+            message.error("Table Delete", "Choose any column and press Select Button.");
         }
 
         primaryKey = "-1";
     }
 
     public void btn_select(ActionEvent actionEvent) {
-        int selectedID = tableView.getSelectionModel().getSelectedIndex();
         TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
         Object val = selectionModel.getSelectedItem();
         ObservableList<String> values = (ObservableList<String>) val;
