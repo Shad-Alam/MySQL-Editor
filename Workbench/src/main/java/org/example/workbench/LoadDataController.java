@@ -166,10 +166,13 @@ public class LoadDataController implements Initializable {
                 // give a error message
                 throw new RuntimeException(e);
             } catch (IOException e) {
+                // give a error message
                 throw new RuntimeException(e);
             }
             System.out.println(insertCmd);
             insertCmd = "";
+        }else{
+            // error message
         }
     }
 
@@ -189,10 +192,9 @@ public class LoadDataController implements Initializable {
         Object val = selectionModel.getSelectedItem();
         ObservableList<String> values = (ObservableList<String>) val;
 
-        // Next Day Start from here
-
-        for(int a=1; a<id; a++) {
-            System.out.println(values.get(a-1));
+        // get selected column value from dynamic table view
+        for (int a = 0; a <id; a++) {
+            list.get(a).getData().setText(values.get(a));
         }
 
         // working when a specific cell is selected
