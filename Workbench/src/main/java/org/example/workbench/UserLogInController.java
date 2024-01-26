@@ -19,9 +19,10 @@ public class UserLogInController implements Initializable {
     public Button btn_id_connect;
     public PasswordField tf_password;
 
+    AlertMessage message;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        message = new AlertMessage();
     }
 
     private boolean checkPassword(String password){
@@ -33,8 +34,6 @@ public class UserLogInController implements Initializable {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
-            // check user from database userlist
-            // then return true or false
             connection.close();
             return true;
         } catch (ClassNotFoundException e) {
@@ -49,12 +48,13 @@ public class UserLogInController implements Initializable {
         // check password match or not
         if(checkPassword(password)){
             // give a success message
-
+            message.succces("Connected to Server", "Server Connected Successfully.");
             // goto showDatabases page after, connect to the server
             changePage(actionEvent, "showDatabases.fxml");
             System.out.println("Connected Successfully");
         }else{
             // give a error message
+            message.succces("Server Connection", "Invalid Password.");
         }
     }
 
