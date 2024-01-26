@@ -12,7 +12,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("userLogIn.fxml"));
         Scene scene = new Scene(fxmlLoader.load(),900,500);
-        stage.setTitle("Mysql Workbench");
+        stage.setTitle("Mysql Editor");
         stage.setScene(scene);
         stage.show();
     }
