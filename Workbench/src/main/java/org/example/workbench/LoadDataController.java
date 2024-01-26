@@ -37,7 +37,8 @@ public class LoadDataController implements Initializable {
     private ObservableList<ObservableList> data;
     private ObservableList<ObservableList<Button>> buttons;
 
-    public String tablename, insertCmd = "";
+    public String tablename, insertCmd = "", updateCmd = "";
+    private String primaryKey = "-1";
     int id = 1;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -186,10 +187,12 @@ public class LoadDataController implements Initializable {
         stage.show();
     }
 
+    // update table data
     public void btn_update(ActionEvent actionEvent) {
-
+        System.out.println(updateCmd);
     }
 
+    // delete table data
     public void btn_delete(ActionEvent actionEvent) {
 
     }
@@ -200,11 +203,34 @@ public class LoadDataController implements Initializable {
         Object val = selectionModel.getSelectedItem();
         ObservableList<String> values = (ObservableList<String>) val;
 
+        // update Person set Name = "Zoy" where Age = 34;
+        updateCmd = "UPDATE " + tablename + " SET ";
         // get selected column value from dynamic table view
         for (int a = 0; a <list.size(); a++) {
-            list.get(a).getData().setText(values.get(a));
+            String field = list.get(a).getFields();
+            String datatype = dataType.get(a);
+            if(a==0){
+                primaryKey = values.get(a);
+            }else {
+                System.out.println(field + " " + datatype);
+                if(a==list.size()-1){
+                    if (datatype.equals("int")) {
+                        updateCmd += field + " = " + values.get(a) + " ";
+                    } else {
+                        updateCmd += field + " = '" + values.get(a) + "' ";
+                    }
+                }else {
+                    if (datatype.equals("int")) {
+                        updateCmd += field + " = " + values.get(a) + ",";
+                    } else {
+                        updateCmd += field + " = '" + values.get(a) + "',";
+                    }
+                }
+                list.get(a).getData().setText(values.get(a));
+            }
         }
 
+        updateCmd+= " WHERE IDK = " + primaryKey + ";";
         // working when a specific cell is selected
 //        TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
 //        ObservableList selectedCells = selectionModel.getSelectedCells();
