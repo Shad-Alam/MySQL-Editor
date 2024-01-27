@@ -8,7 +8,7 @@
 
 - This is MySQL Server Management project. This project goal is to communicate with MySQL server. Create Database and Table dynamically from user interface. <br/>
 
-## Project presentation: https://www.youtube.com/watch?v=dWgwDc7Gu20
+## Project presentation: https://youtu.be/bS_qQ7pSQ7Q
 
 <br/> 
 
