@@ -280,6 +280,10 @@ public class LoadDataController implements Initializable {
 
     public void btn_select(ActionEvent actionEvent) {
         TableView.TableViewSelectionModel selectionModel = tableView.getSelectionModel();
+        if(selectionModel.isEmpty()){
+            message.error("Column Select", "Select any column, if it is not empty.");
+            return;
+        }
         Object val = selectionModel.getSelectedItem();
         ObservableList<String> values = (ObservableList<String>) val;
 
