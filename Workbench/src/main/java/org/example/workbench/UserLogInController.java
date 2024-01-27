@@ -26,14 +26,11 @@ public class UserLogInController implements Initializable {
     }
 
     private boolean checkPassword(String password){
-        if(!password.equals("shad")){
-            return false;
-        }
         Connection connection = null;
         Statement statement = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
+            connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password="+password);
             connection.close();
             return true;
         } catch (ClassNotFoundException e) {
