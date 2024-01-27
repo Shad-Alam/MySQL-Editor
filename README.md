@@ -1,11 +1,4 @@
-
-## Project    : MySQL-Editor
-## Contributor: Shad-Alam 
-
-<br/>
-
-:writing_hand: **Description:** <br/>
-
+# MySQL Editor
 - This is MySQL Server Management project. This project goal is to communicate with MySQL server. Create Database and Table dynamically from user interface. <br/> <br/>
 
 :point_right: **Requrirement:**
