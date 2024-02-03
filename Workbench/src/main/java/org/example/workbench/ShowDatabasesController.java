@@ -29,8 +29,11 @@ public class ShowDatabasesController implements Initializable {
     public TextField tf_dbname;
     public static String databasename = "---";
     AlertMessage message;
+
+    public static String kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI = "";
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI = UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI;
         message = new AlertMessage();
         tb_column_databases.setCellValueFactory(new PropertyValueFactory<ShowDatabases,String>("Dbname"));
         tb_column_showTables.setCellValueFactory(new PropertyValueFactory<ShowDatabases,Button>("Showtable"));

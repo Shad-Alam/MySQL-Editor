@@ -45,8 +45,11 @@ public class ShowTablesController implements Initializable {
     public static String tbname_store;
 
     AlertMessage message;
+
+    private static String kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI = "";
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI = ShowDatabasesController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI;
         message = new AlertMessage();
         // data type add on combobox
         combox_data_type.getItems().addAll(
@@ -83,7 +86,7 @@ public class ShowTablesController implements Initializable {
         Statement statement = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename,"root" , UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
+            connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename,"root" , kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
             statement = connection.createStatement();
             String sql = "SHOW TABLES;";
             ResultSet resultSet = statement.executeQuery(sql);
@@ -118,7 +121,7 @@ public class ShowTablesController implements Initializable {
                     public void handle(ActionEvent actionEvent) {
                         // delete table
                         try {
-                            Connection connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
+                            Connection connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
                             Statement statement1 = connection1.createStatement();
                             String sql1 = "DROP TABLE " + tablename + ";";
                             statement1.execute(sql1);
@@ -202,7 +205,7 @@ public class ShowTablesController implements Initializable {
                     }
                 }
                 sm += ");";
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databasename, "root", kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
                 Statement statement = connection.createStatement();
                 statement.execute(sm);
                 connection.close();
