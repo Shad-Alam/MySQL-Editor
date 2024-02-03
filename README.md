@@ -8,7 +8,7 @@
 This is MySQL Server Management project. This project goal is to communicate with MySQL server. Create Database and Table dynamically from user interface. <br/> <br/>
 
 :point_right: **Requrirement:**
- 1. Mysql server: (https://www.mysql.com/downloads/) <br/>
+ 1. Mysql Server. <br/>
  2. Setup localhost password. <br/> <br/>
 
 ## Project presentation: https://youtu.be/bS_qQ7pSQ7Q
