@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 public class UserLogInController implements Initializable {
     public Button btn_id_connect;
     public PasswordField tf_password;
+    public static String kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI = "";
 
     AlertMessage message;
     @Override
@@ -28,6 +29,7 @@ public class UserLogInController implements Initializable {
     private boolean checkPassword(String password){
         Connection connection = null;
         Statement statement = null;
+        kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI = password;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password="+password);

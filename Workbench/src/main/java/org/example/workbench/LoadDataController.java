@@ -57,7 +57,7 @@ public class LoadDataController implements Initializable {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
             Statement statement = connection.createStatement();
             String sql = "DESC " + tablename + ";";
             ResultSet resultSet = statement.executeQuery(sql);
@@ -95,7 +95,7 @@ public class LoadDataController implements Initializable {
         }
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
             Statement statement = connection.createStatement();
             String sql = "SELECT * FROM " + tablename + ";";
             ResultSet resultSet = statement.executeQuery(sql);
@@ -161,7 +161,7 @@ public class LoadDataController implements Initializable {
                 return;
             }
             try {
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
                 Statement statement = connection.createStatement();
                 statement.execute(insertCmd);
                 connection.close();
@@ -222,7 +222,7 @@ public class LoadDataController implements Initializable {
                     }
                 }
                 updateCmd+= " WHERE IDK = " + primaryKey + ";";
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
                 Statement statement = connection.createStatement();
                 statement.execute(updateCmd);
                 connection.close();
@@ -254,7 +254,7 @@ public class LoadDataController implements Initializable {
             String sql = "DELETE FROM " + tablename + " WHERE IDK = " + primaryKey + ";";
             System.out.println(sql);
             try {
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", "shad");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + ShowDatabasesController.databasename, "root", UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
                 Statement statement = connection.createStatement();
                 statement.execute(sql);
                 connection.close();

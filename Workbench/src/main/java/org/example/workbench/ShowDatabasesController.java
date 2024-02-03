@@ -46,7 +46,7 @@ public class ShowDatabasesController implements Initializable {
         Statement statement = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
+            connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password="+UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
             statement = connection.createStatement();
             String sql = "SHOW DATABASES";
             ResultSet resultSet = statement.executeQuery(sql);
@@ -89,7 +89,7 @@ public class ShowDatabasesController implements Initializable {
                             try {
                                 Connection connection1 = null;
                                 Statement statement1 = null;
-                                connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
+                                connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password="+UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
                                 statement1 = connection1.createStatement();
                                 String sql1 = "DROP DATABASE " + dbname + ";";
                                 statement1.execute(sql1);
@@ -129,7 +129,7 @@ public class ShowDatabasesController implements Initializable {
             Connection connection = null;
             Statement statement = null;
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password=shad");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/?user=root&password="+UserLogInController.kkisjekeickckidkdieekKIDDKEIEIKDIEKEIEI);
                 statement = connection.createStatement();
                 String sql = "CREATE DATABASE " + dbname;
                 statement.execute(sql);
